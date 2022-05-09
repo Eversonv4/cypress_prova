@@ -15,6 +15,20 @@ describe("Betting Flow.", () => {
     });
   });
 
+  it("Should not allow to save bet with cart value below 30.", () => {
+    cy.get('.eQVTnn').click()
+    for (let index = 0; index < 3; index++) {
+      cy.get(".sc-clIzBv > :nth-child(1)").click();
+      cy.get(".sc-Galmp").click();
+      cy.get('.Toastify__toast-container').contains("Game added to cart!").should("be.visible");
+    }
+
+    cy.get(".sc-cZMNgc").click();
+    cy.get('.Toastify__toast-container').contains("The cart hasnt reached the minimun value of R$ 30,00!").should(
+      "be.visible"
+    );
+  });
+
   it("Should save bet with cart value above 30", () => {
     cy.intercept("POST", "**/bet/new-bet").as("newBet");
 
